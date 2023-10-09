@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken"); // Import the jsonwebtoken library
 
 const movieModel=require ("../model/movieModel");
 //add movie
-router.post("/addMovie", async(req,res)=>{
+router.post("/api/addMovie", async(req,res)=>{
     const newMovie=req.body;
     console.log(newMovie)
     try {
@@ -24,54 +24,12 @@ router.post("/addMovie", async(req,res)=>{
 
 
 
-// jwt add movie
-
-// function authenticateToken(req, res, next) {
-//     // Get the JWT token from the request headers
-//     const authorizationHeader = req.headers.authorization;
-  
-//     // If no token is provided, return a 401 Unauthorized response
-//     if (!authorizationHeader) {
-//       return res.status(401).json({ message: 'Unauthorized' });
-//     }
-  
-//     // Extract the token from the Authorization header
-//     const token = authorizationHeader.replace('Bearer ', '');
-  
-//     // Verify the token
-//     try {
-//       const decoded = jwt.verify(token, 'Harsha');
-//       // You can also extract user information from the decoded token if needed
-//       req.user = decoded;
-//       next();
-//     } catch (error) {
-//       return res.status(403).json({ message: 'Invalid token.' });
-//     }
-//   }
-  
-  
-  
-//   // Your route definition remains the same
-//   router.post('/addMovie', authenticateToken, async (req, res) => {
-//     const newMovie = req.body;
-//     console.log(newMovie);
-//     try {
-//       console.log('first');
-//       const addMovie = await movieModel(newMovie).save();
-//       res.status(200).json({ message: 'movie added successfully' });
-//     } catch (err) {
-//       console.error(err);
-//       res.status(500).json({ message: 'Internal Server Error' });
-//     }
-//   });
-
-
 
 
 
   
 //view all movies
- router.post("/viewMovies",async (req,res)=>{
+ router.post("/api/viewMovies",async (req,res)=>{
     const input=req.body;
     try {
         const movies= await movieModel.find()
@@ -86,7 +44,7 @@ router.post("/addMovie", async(req,res)=>{
 
 
   // Express route to delete a movie by its ID
-  router.post("/deleteMovie/:id",async (req,res)=>{
+  router.post("/api/deleteMovie/:id",async (req,res)=>{
     const movieId=req.params.id;
     console.log(movieId)
     try {
@@ -101,7 +59,7 @@ router.post("/addMovie", async(req,res)=>{
  }) 
 
 
- router.post("/updateMovie/:id",async (req,res)=>{
+ router.post("/api/updateMovie/:id",async (req,res)=>{
   const movieId=req.params.id;
   console.log(movieId)
   try {
@@ -115,7 +73,7 @@ router.post("/addMovie", async(req,res)=>{
   }  
 }) 
 
-  router.post("/viewMovie/:id", async(req,res)=>{
+  router.post("/api/viewMovie/:id", async(req,res)=>{
     const movieId=req.params.id;
     console.log(movieId)
     try {

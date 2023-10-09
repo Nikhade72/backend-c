@@ -8,7 +8,7 @@ router.use(express.json());
 const jwt = require('jsonwebtoken');
 
 // Get movies
-router.post('/getbookedtkts/:id', async(req,res)=>{
+router.post('/api/getbookedtkts/:id', async(req,res)=>{
     const userId=req.params.id;
     console.log(userId)
     try {
@@ -25,7 +25,7 @@ router.post('/getbookedtkts/:id', async(req,res)=>{
     
 })
 
-router.post("/bookingupdate", async(req,res)=>{
+router.post("/api/bookingupdate", async(req,res)=>{
   const id= req.body._id;
   var query={_id:id};
   try {
@@ -46,7 +46,7 @@ router.post("/bookingupdate", async(req,res)=>{
 
 
 //book ticket
-router.post('/booktickets', async (req, res) => {
+router.post('/api/booktickets', async (req, res) => {
   const bookingData = req.body;
   const { seat_number, movieId, userId } = bookingData; // Rename UserId to userId to match the variable name
 
@@ -73,7 +73,7 @@ router.post('/booktickets', async (req, res) => {
 
 
 // Cancel tickets
-router.post('/cancelticket/:id', async(req,res)=>{
+router.post('/api/cancelticket/:id', async(req,res)=>{
   const tktId=req.params.id;
   console.log(tktId)
   try {
@@ -88,7 +88,7 @@ router.post('/cancelticket/:id', async(req,res)=>{
   }    
 })
 
-router.post('/available', async (req, res) => {
+router.post('/api/available', async (req, res) => {
     try {
       const movies = await ticketBookingModel.find({ availableSeats: { $gt: 0 } }); // Fetch movies with available seats
       res.json(movies);
@@ -98,7 +98,7 @@ router.post('/available', async (req, res) => {
     }
   });
 
-  router.post('/availability/:movieId', async (req, res) => {
+  router.post('/api/availability/:movieId', async (req, res) => {
     try {
       const movieId = req.params.movieId;
   
@@ -169,7 +169,7 @@ router.post('/api/reserve-seat', async (req, res) => {
   }
 });
 
-router.post('/getbookedtkts/:userId', async (req, res) => {
+router.post('/api/getbookedtkts/:userId', async (req, res) => {
   const userId = req.params.userId;
 
   try {
@@ -185,7 +185,7 @@ router.post('/getbookedtkts/:userId', async (req, res) => {
 });
 
 
-router.post("/seatupdate/:id", async(req,res)=>{
+router.post("/api/seatupdate/:id", async(req,res)=>{
   const id=req.params.id;
   console.log(id)
   const data=req.body.name;
@@ -216,7 +216,7 @@ router.post("/seatupdate/:id", async(req,res)=>{
 })
 
 // get all movies by one user
-router.post('/getbookedtkts/:id', async(req,res)=>{
+router.post('/api/getbookedtkts/:id', async(req,res)=>{
   const userId=req.params.id;
   console.log(userId)
   try {
@@ -234,7 +234,7 @@ router.post('/getbookedtkts/:id', async(req,res)=>{
 
 
 
-router.get('/bookingdetails/:bookingId', async (req, res) => {
+router.get('/api/bookingdetails/:bookingId', async (req, res) => {
   try {
     const bookingId = req.params.bookingId;
     const bookingDetails = await ticketBookingModel.findById(bookingId);
@@ -252,7 +252,7 @@ router.get('/bookingdetails/:bookingId', async (req, res) => {
 
 // Update a movie by its ID
 // Update movie timing and ticket charges by its ID
-router.post("/updateMovie/:id", async (req, res) => {
+router.post("/api/updateMovie/:id", async (req, res) => {
   const movieId = req.params.id;
   const { Timing, TicketRates } = req.body; // Include updated fields in the request body
 
@@ -274,41 +274,6 @@ router.post("/updateMovie/:id", async (req, res) => {
   }
 });
 
-// POST /api/movie/submitreview
-// Define route for submitting a review
-// router.post('/submitreview', async (req, res) => {
-//   try {
-//     const { movieId, reviewText, rating } = req.body;
-
-//     // Find the movie by its ID
-//     const movie = await movieModel.findById(movieId);
-
-//     if (!movie) {
-//       return res.status(404).json({ error: 'Movie not found' });
-//     }
-
-//     // Create a new review for the movie
-//     const newReview = {
-//       reviewText,
-//       rating,
-//     };
-
-//     // Add the review to the movie's reviews array (assuming you have a reviews array in the movie schema)
-//     movie.reviews.push(newReview);
-
-//     // Calculate the new average rating for the movie
-//     const totalRatings = movie.reviews.reduce((total, review) => total + review.rating, 0);
-//     movie.averageRating = totalRatings / movie.reviews.length;
-
-//     // Save the updated movie document
-//     await movie.save();
-
-//     res.status(200).json({ message: 'Review submitted successfully' });
-//   } catch (error) {
-//     console.error('Error submitting review:', error);
-//     res.status(500).json({ error: 'An error occurred while submitting the review' });
-//   }
-// });
 
 
 router.get('/api/movies/:id/averageRating', async (req, res) => {
@@ -328,7 +293,7 @@ router.get('/api/movies/:id/averageRating', async (req, res) => {
   }
 });
 
-router.get('/bookingdetails/:movieId/:date', async (req, res) => {
+router.get('/api/bookingdetails/:movieId/:date', async (req, res) => {
   try {
     const movieId = req.params.movieId;
     const date = new Date(req.params.date);
@@ -353,39 +318,8 @@ router.get('/bookingdetails/:movieId/:date', async (req, res) => {
   }
 });
 
-// router.post('/submitreview', async (req, res) => {
-//   try {
-//     const { movieId, reviewText, rating } = req.body;
-//     // Find the movie by its ID
-//     const movie = await movieModel.findById(movieId);
 
-//     if (!movie) {
-//       return res.status(404).json({ error: 'Movie not found' });
-//     }
-
-//     // Create a new review for the movie
-//     const newReview = {
-//       reviewText,
-//       rating,
-//     };
-
-//     // Add the review to the movie's reviews array (assuming you have a reviews array in the movie schema)
-//     movie.reviews.push(newReview);
-
-//     // Calculate the new average rating for the movie
-//     const totalRatings = movie.reviews.reduce((total, review) => total + review.rating, 0);
-//     movie.averageRating = totalRatings / movie.reviews.length;
-
-//     // Save the updated movie document
-//     await movie.save();
-
-//     res.status(200).json({ message: 'Review submitted successfully' });
-//   } catch (error) {
-//     console.error('Error submitting review:', error);
-//     res.status(500).json({ error: 'An error occurred while submitting the review' });
-//   }
-// });
-router.post('/submitreview', async (req, res) => {
+router.post('/api/submitreview', async (req, res) => {
   try {
     const { movieId, reviewText, rating } = req.body;
 
@@ -410,7 +344,7 @@ router.post('/submitreview', async (req, res) => {
 });
 
 // Retrieve reviews for a specific movie
-router.get('/reviews/:movieId', async (req, res) => {
+router.get('/api/reviews/:movieId', async (req, res) => {
   try {
     const movieId = req.params.movieId;
     const reviews = await reviewData.find({ movieId });

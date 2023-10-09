@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-router.post('/sendEmail', (req, res) => {
+router.post('/api/sendEmail', (req, res) => {
   const { email, bookingId, seatNumbers  } = req.body;
 
   // Compose the email
